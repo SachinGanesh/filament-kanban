@@ -9,6 +9,7 @@ use Filament\FilamentServiceProvider;
 use Filament\Forms\FormsServiceProvider;
 use Filament\Infolists\InfolistsServiceProvider;
 use Filament\Notifications\NotificationsServiceProvider;
+use Filament\Schemas\SchemasServiceProvider;
 use Filament\Support\SupportServiceProvider;
 use Filament\Tables\TablesServiceProvider;
 use Filament\Widgets\WidgetsServiceProvider;
@@ -37,6 +38,10 @@ class TestCase extends Orchestra
     protected function getPackageProviders($app)
     {
         return [
+            // Filament providers must be registered before LivewireServiceProvider
+            // so that the DataStoreOverride singleton is properly set up when
+            // Livewire's DataStore mechanism registers itself.
+            SupportServiceProvider::class,
             ActionsServiceProvider::class,
             BladeCaptureDirectiveServiceProvider::class,
             BladeHeroiconsServiceProvider::class,
@@ -44,11 +49,11 @@ class TestCase extends Orchestra
             FilamentServiceProvider::class,
             FormsServiceProvider::class,
             InfolistsServiceProvider::class,
-            LivewireServiceProvider::class,
             NotificationsServiceProvider::class,
-            SupportServiceProvider::class,
+            SchemasServiceProvider::class,
             TablesServiceProvider::class,
             WidgetsServiceProvider::class,
+            LivewireServiceProvider::class,
             FilamentKanbanServiceProvider::class,
             TestPanelProvider::class,
         ];
